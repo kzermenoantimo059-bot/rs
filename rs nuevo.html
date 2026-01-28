@@ -1,0 +1,251 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revolución Social | Bienestar Emocional</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fdcb6e;
+            --bg: #f9f9fb;
+            --text: #2d3436;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: all 0.5s ease;
+            line-height: 1.6;
+        }
+
+        body.calm-mode {
+            background-color: #dff9fb;
+            --primary: #0097e6;
+        }
+
+        header {
+            padding: 3rem 1rem;
+            text-align: center;
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .hero {
+            padding: 60px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h2 { border-bottom: 2px solid var(--primary); display: inline-block; padding-bottom: 5px; }
+
+        /* Grid System */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background: #f1f2f6;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .member { text-align: center; padding: 10px; }
+        .member span { display: block; font-weight: bold; color: var(--primary); font-size: 0.9rem; }
+
+        /* Mission/Vision */
+        .mv-section {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        .mv-box {
+            flex: 1;
+            min-width: 300px;
+            background: #2d3436;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        .mv-box h3 { color: var(--secondary); margin-top: 0; }
+
+        .btn-interact {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-interact:hover { opacity: 0.9; transform: scale(1.05); }
+
+        .footer-info {
+            background: #dfe6e9;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 50px;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🧠 Revolución Social</h1>
+    <p><strong>UTEG</strong> | "Más que votos, cuidamos vidas"</p>
+    <button onclick="toggleCalm()" class="btn-interact" style="background: white; color: var(--primary); border: 2px solid var(--primary);">✨ Activar Modo Calma</button>
+</header>
+
+<section class="hero">
+    <h2>El bienestar emocional como motor de la dignidad social</h2>
+    <p>Legislamos desde la realidad humana para no dejar a nadie atrás.</p>
+</section>
+
+<div class="container">
+    
+    <section>
+        <h2>Nuestro Equipo Directivo</h2>
+        <div class="team-grid">
+            <div class="member"><span>PRESIDENTE</span> Yair Alberto González Ávila</div>
+            <div class="member"><span>CANDIDATO</span> Francisco Alejandro Sandoval</div>  
+            <div class="member"><span>VICEPRESIDENTE</span> César Morales León</div>
+            <div class="member"><span>SECRETARIO</span> Kevin Javier Zermeño Estrada</div>
+            <div class="member"><span>FINANZAS</span> Jorge Alfredo Cortez Martínez</div>
+            <div class="member"><span>MARKETING</span> Isai Martínez Munguía</div>
+        </div>
+    </section>
+
+    <div class="mv-section">
+        <div class="mv-box">
+            <h3>Nuestra Misión</h3>
+            <p>Transformar el sistema público para que el cuidado de la salud mental sea preventivo, gratuito y accesible en cada barrio y escuela del país.</p>
+        </div>
+        <div class="mv-box">
+            <h3>Nuestra Visión</h3>
+            <p>Ser el país líder en bienestar integral, donde la felicidad y la paz mental sean indicadores de progreso tan importantes como el PIB.</p>
+        </div>
+    </div>
+
+    <section>
+        <h2>Propuestas Concretas</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="tag">LABORAL</span>
+                <h3>Ley del Tiempo para la Vida</h3>
+                <p>Reducción de la jornada laboral para combatir el burnout y fomentar el tiempo de calidad con la familia y la comunidad.</p>
+            </div>
+            <div class="card">
+                <span class="tag">COMUNITARIO</span>
+                <h3>Psicólogo de Barrio</h3>
+                <p>Instalación de centros de atención psicológica gratuita en centros comunitarios, no solo en hospitales.</p>
+            </div>
+            <div class="card">
+                <span class="tag">EDUCACIÓN</span>
+                <h3>Educación Emocional Obligatoria</h3>
+                <p>Materias de gestión de emociones, resolución de conflictos y prevención de acoso escolar desde preescolar.</p>
+            </div>
+            <div class="card">
+                <span class="tag">SALUD</span>
+                <h3>Canasta Básica de Salud Mental</h3>
+                <p>Cobertura total en medicamentos psiquiátricos y terapias especializadas en el seguro social.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Nuestros Valores Fundamentales</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Empatía</h3>
+                <p>Entender y compartir los sentimientos de los ciudadanos para legislar desde la realidad humana.</p>
+            </div>
+            <div class="card">
+                <h3>Transparencia</h3>
+                <p>Honestidad total. La corrupción genera estrés y desconfianza social.</p>
+            </div>
+            <div class="card">
+                <h3>Resiliencia</h3>
+                <p>Capacidad de la sociedad para recuperarse ante crisis económicas o sociales.</p>
+            </div>
+            <div class="card">
+                <h3>Solidaridad</h3>
+                <p>El compromiso de no dejar a nadie atrás, especialmente a quienes sufren en silencio.</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: white; padding: 30px; border-radius: 15px; margin-top: 40px;">
+        <h3>Principios de Acción</h3>
+        <ul>
+            <li><strong>Humanismo Radical:</strong> Las personas por encima de los intereses económicos.</li>
+            <li><strong>Salud Integral:</strong> No hay salud física sin salud mental; ambas son indivisibles.</li>
+            <li><strong>Inclusión Universal:</strong> El acceso a la estabilidad no depende de ingresos, género o etnia.</li>
+            <li><strong>Cuidado Comunitario:</strong> Fortalecer lazos vecinales y familiares para cuidarnos entre todos.</li>
+        </ul>
+    </section>
+
+</div>
+
+<div class="footer-info">
+    <h2>La Casa del Pueblo Consciente</h2>
+    <p>📍 <strong>Ubicación:</strong> Corazón de la capital (Espacio abierto con jardines y áreas de escucha activa).</p>
+    <p><em>"Centralización en el bienestar humano"</em></p>
+    <br>
+    <p><strong>Gracias.</strong></p>
+</div>
+
+<script>
+    function toggleCalm() {
+        document.body.classList.toggle('calm-mode');
+        const btn = document.querySelector('header button');
+        btn.innerText = document.body.classList.contains('calm-mode') 
+            ? "Volver a Modo Normal" 
+            : "✨ Activar Modo Calma";
+    }
+</script>
+
+</body>
+</html>
