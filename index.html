@@ -195,29 +195,13 @@
     <div class="social-links">
         <a href="https://www.facebook.com/profile.php?id=61586900776123&rdid=IlIpeDDQO1CtUEO5&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F185eAc8djU%2F#" target="_blank" class="social-link link-fb">FB</a>
         <a href=" https://www.instagram.com/revolucion_social.utg/" target="_blank" class="social-link link-ig">IG</a>
-        <a href="https://wa.me/521819342" target="_blank" class="social-link link-wa">WA</a>
+        
     </div>
     <p>© 2026 Revolución Social UTEG</p>
 </footer>
 
-<script>
-    function toggleCalm() { 
-        document.body.classList.toggle('calm-mode');
-        document.getElementById('btnC').innerText = document.body.classList.contains('calm-mode') ? "MODO OSCURO" : "MODO CALMA";
-    }
-    function toggleP() { const b = document.getElementById('pBar'); b.style.display = (b.style.display === "flex") ? "none" : "flex"; }
-    function openM() { document.getElementById('mO').style.display = 'flex'; }
-    function closeM() { document.getElementById('mO').style.display = 'none'; }
-    function send() {
-        const n = document.getElementById('n').value;
-        const c = document.getElementById('c').value;
-        const e = document.getElementById('email').value;
-        const ca = document.getElementById('carrera').value;
-        if(!n || !c || !e || !ca) { alert("Por favor llena todos los campos"); return; }
-        const msg = `¡Hola! Me uno a Revolución Social.%0A*Nombre:* ${n}%0A*Código:* ${c}%0A*Correo:* ${e}%0A*Carrera:* ${ca}`;
-        window.open(`https://wa.me/521XXXXXXXXXX?text=${msg}`, '_blank');
-        closeM();
-    }
+
 </script>
 </body>
 </html>
+
