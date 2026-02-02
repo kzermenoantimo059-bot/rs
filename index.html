@@ -1,207 +1,335 @@
- 
-
  <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revolución Social | UTEG 2026</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         :root {
-            --bg: #0b0e11; --surface: #15191d; --primary: #4a90e2; --accent: #ffca28;
+            --bg: #0b0e11; --surface: #1a1f24; --primary: #3b82f6; --accent: #fbbf24;
             --text: #ffffff; --text-dim: #a0a6af; --border: rgba(255,255,255,0.1);
+            --transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-main: 'Montserrat', sans-serif; --calm-icon: "✨";
         }
-        body.calm-mode {
-            --bg: #475569; --surface: #334155; --primary: #1e293b; --accent: #fbbf24;
-            --text: #f8fafc; --text-dim: #cbd5e1; --border: rgba(0,0,0,0.2);
+
+        /* ANIMACIÓN Y ESTADOS MODO CALMA */
+        body.calm-mode { 
+            --bg: #1e293b; --surface: #334155; --primary: #60a5fa; 
+            --text: #cbd5e1; --border: rgba(255,255,255,0.05); --calm-icon: "🍃";
         }
-        body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); transition: 0.5s; overflow-x: hidden; }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-main); margin: 0; background: var(--bg); color: var(--text); transition: var(--transition); overflow-x: hidden; }
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background-color: var(--bg); transition: var(--transition); }
+
+        /* HEADER */
+        header { 
+            padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; 
+            position: fixed; width: 90%; z-index: 2500; backdrop-filter: blur(15px); 
+            background: rgba(11, 14, 17, 0.7); border-bottom: 1px solid var(--border); 
+        }
+
+        .calm-container { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px 12px; border-radius: 50px; transition: 0.3s; }
+        .calm-container:hover { background: rgba(255,255,255,0.1); }
         
-        header { padding: 1rem 2rem; background: var(--surface); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 2000; border-bottom: 1px solid var(--border); }
+        .btn-minimal { 
+            background: none; border: none; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; 
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+        }
+        .btn-minimal::after { content: var(--calm-icon); }
+        body.calm-mode .btn-minimal { transform: rotate(180deg) scale(1.2); }
         
-        /* PLANTILLA SEPARADA */
-        .plantilla-bar { 
-            display: none; background: var(--surface); padding: 35px 20px; 
-            overflow-x: auto; gap: 50px; justify-content: center; 
-            border-bottom: 2px solid var(--primary); 
-        }
-        .member-item { text-align: center; min-width: 150px; transition: 0.4s; cursor: pointer; }
-        .photo-circle { 
-            width: 80px; height: 80px; border-radius: 50%; 
-            border: 2px solid var(--primary); margin-bottom: 12px; 
-            object-fit: cover; transition: 0.4s; background: #2a2d32;
-        }
-        .member-item:hover { transform: translateY(-10px); }
-        .member-item:hover .photo-circle { border-color: var(--accent); box-shadow: 0 0 20px var(--primary); }
-        .member-item b { display: block; color: var(--accent); font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 5px; }
-        .member-item span { font-size: 0.8rem; font-weight: bold; }
+        .calm-text { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
-        
-        /* SECCIÓN EVENTO */
-        .event-card {
-            background: linear-gradient(135deg, var(--primary), #2c5282);
-            color: white; padding: 30px; border-radius: 20px; margin-bottom: 50px;
-            display: flex; align-items: center; justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: 0.3s;
-        }
-        .event-card:hover { transform: scale(1.02); }
-        .event-badge { background: var(--accent); color: #000; padding: 5px 15px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; }
+        .btn-menu-code { background: none; border: none; cursor: pointer; font-family: monospace; font-size: 1.6rem; color: var(--primary); font-weight: bold; padding-left: 15px; border-left: 1px solid var(--border); }
+        .dropdown-menu { display:none; position:absolute; right:0; top:60px; background:var(--surface); min-width:240px; border-radius:15px; border:1px solid var(--border); overflow:hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .dropdown-menu a { color: var(--text); padding: 15px 25px; display: block; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .dropdown-menu a:hover { background: rgba(255,255,255,0.05); color: var(--primary); }
 
-        /* MISIÓN / VISIÓN CUADROS */
-        .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 50px; }
-        .big-card { background: var(--surface); padding: 40px; border-radius: 25px; border: 2px solid var(--border); transition: 0.4s; text-align: center; }
-        .big-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        /* HERO */
+        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .hero h1 { font-size: clamp(3.5rem, 10vw, 7rem); font-weight: 900; line-height: 0.9; margin: 0; letter-spacing: -3px; }
+        .italic-text { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; color: var(--primary); transition: var(--transition); }
 
-        /* VALORES EMOJIS */
-        .valores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 60px; }
-        .valor-item { text-align: center; padding: 25px; background: var(--surface); border-radius: 20px; transition: 0.3s; border: 1px solid var(--border); }
-        .valor-item:hover { transform: translateY(-5px); background: var(--primary); }
+        /* EVENTOS */
+        .events-section { padding: 120px 8%; background: rgba(255,255,255,0.02); }
+        .events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
+        .event-card { background: var(--surface); border: 2px solid var(--accent); border-radius: 30px; padding: 40px; transition: var(--transition); position: relative; overflow: hidden; }
+        .event-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(251, 191, 36, 0.2); }
+        .event-date { color: var(--accent); font-weight: 900; font-size: 1.2rem; margin-bottom: 10px; display: block; }
+        .btn-tacos { display: inline-block; margin-top: 20px; padding: 15px 30px; border-radius: 50px; background: var(--accent); border: none; color: #000; font-weight: 900; text-decoration: none; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* PROPUESTAS ACORDEÓN */
-        .propuesta-item { background: var(--surface); margin-bottom: 12px; border-radius: 12px; border-left: 6px solid var(--primary); overflow: hidden; cursor: pointer; }
-        .propuesta-header { padding: 20px; font-weight: bold; display: flex; align-items: center; gap: 15px; }
-        .propuesta-body { max-height: 0; padding: 0 20px; color: var(--text-dim); transition: 0.4s ease; opacity: 0; }
-        .propuesta-item.active .propuesta-body { max-height: 150px; padding: 10px 20px 20px; opacity: 1; }
+        /* MISIÓN Y VISIÓN (AMPLIADAS) */
+        .mv-canvas { display: flex; width: 100%; height: 85vh; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; }
+        .mv-trigger { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px; transition: 1s cubic-bezier(0.2, 1, 0.2, 1); cursor: crosshair; position: relative; }
+        .mv-trigger:hover { flex: 5; background: rgba(59, 130, 246, 0.03); }
+        .mv-details { max-height: 0; opacity: 0; transform: translateY(30px); transition: 0.8s; text-align: center; max-width: 600px; }
+        .mv-trigger:hover .mv-details { max-height: 500px; opacity: 1; transform: translateY(0); margin-top: 30px; }
+        .mv-details p { font-size: 1.1rem; line-height: 1.8; color: var(--text-dim); text-align: justify; }
 
-        .btn-main { background: var(--primary); color: white; border: none; padding: 18px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; display: inline-block; }
-        .btn-main:hover { transform: scale(1.1); background: var(--accent); color: #000; }
+        /* PROPUESTAS */
+        .propuestas-section { padding: 120px 8%; }
+        .stack-container { display: flex; flex-direction: column; gap: 20px; }
+        .stack-card { position: relative; height: 140px; border-radius: 35px; overflow: hidden; display: flex; align-items: center; padding: 0 50px; cursor: pointer; border: 1px solid var(--border); transition: var(--transition); }
+        .card-img-bg { position: absolute; inset: 0; z-index: -1; background-size: cover; background-position: center; filter: brightness(0.4); transition: 0.8s; }
+        .stack-card:hover .card-img-bg { transform: scale(1.05); filter: brightness(0.6); }
 
-        /* MODAL */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 4000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--surface); padding: 35px; border-radius: 25px; border: 1px solid var(--primary); width: 90%; max-width: 450px; text-align: center; color: var(--text); }
-        .modal-content input, .modal-content select { 
-            width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid var(--border); 
-            background: rgba(255,255,255,0.05); color: var(--text); box-sizing: border-box; 
-        }
+        /* VALORES (RESTAURADOS) */
+        .valores-section { padding: 120px 8%; }
+        .valores-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
+        .valor-card { background: rgba(255,255,255,0.03); padding: 60px 40px; border-radius: 40px; border: 1px solid var(--border); text-align: center; transition: var(--transition); position: relative; }
+        .valor-card:hover { transform: translateY(-15px); border-color: var(--glow-color); box-shadow: 0 0 30px var(--glow-color); }
+        .valor-emoji { font-size: 4.5rem; margin-bottom: 20px; display: block; }
+        .empatia { --glow-color: #ff4757; } .solidaridad { --glow-color: #2ed573; } .transparencia { --glow-color: #1e90ff; } .resiliencia { --glow-color: #ffa502; }
 
-        /* ANIMACIÓN REDES SOCIALES */
-        footer { padding: 50px; text-align: center; background: var(--surface); border-top: 1px solid var(--border); }
-        .social-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 20px; }
-        .social-link { 
-            color: var(--primary); border: 2px solid var(--primary); 
-            width: 50px; height: 50px; display: flex; align-items: center; 
-            justify-content: center; border-radius: 50%; text-decoration: none; 
-            font-weight: bold; font-size: 1.2rem;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
-            position: relative; background: transparent;
-        }
-        .social-link:hover { 
-            background: var(--primary); 
-            color: white; 
-            transform: translateY(-10px) scale(1.2); 
-            box-shadow: 0 10px 20px var(--glow, rgba(74, 144, 226, 0.4));
-            border-color: var(--accent);
-        }
-        /* Color específico al hover para cada red */
-        .link-fb:hover { --glow: rgba(24, 119, 242, 0.6); }
-        .link-ig:hover { --glow: rgba(225, 48, 108, 0.6); }
-        .link-wa:hover { --glow: rgba(37, 211, 102, 0.6); }
+        /* BUZÓN */
+        .mailbox-section { padding: 100px 8%; text-align: center; }
+        .mailbox-container { max-width: 700px; margin: 0 auto; background: var(--surface); padding: 50px; border-radius: 40px; border: 1px solid var(--border); transition: var(--transition); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+        .full-w { grid-column: span 2; }
+        .mailbox-input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 15px; padding: 18px; color: white; box-sizing: border-box; font-family: inherit; }
+        .btn-send { width: 100%; padding: 20px; border-radius: 15px; border: none; background: var(--primary); color: white; font-weight: 900; cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px; }
 
-        @media (max-width: 800px) { .mv-grid, .valores-grid, .event-card { grid-template-columns: 1fr; flex-direction: column; text-align: center; } }
+        /* FOOTER */
+        footer { padding: 60px 5%; text-align: center; border-top: 1px solid var(--border); background: rgba(0,0,0,0.2); }
+        .social-container { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; }
+        .social-icon { font-size: 2rem; color: var(--text-dim); text-decoration: none; transition: 0.4s; }
+        .social-icon:hover { transform: translateY(-10px); color: var(--primary); }
+
+        /* MODALES */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 5000; align-items: center; justify-content: center; backdrop-filter: blur(20px); padding: 20px; }
+        .modal-inner { background: var(--surface); width: 100%; max-width: 900px; border-radius: 40px; border: 1px solid var(--border); padding: 50px; position: relative; max-height: 85vh; overflow-y: auto; }
+        .p-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center; margin-top: 30px; }
+        .t-float img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin-bottom: 15px; transition: 0.5s; }
+        .t-float:hover img { transform: scale(1.1); box-shadow: 0 0 20px var(--primary); }
+
+        /* HUEVO DE PASCUA */
+        .easter-egg { font-size: 8px; color: rgba(255,255,255,0.05); cursor: help; transition: 0.3s; }
+        .easter-egg:hover { color: var(--accent); font-size: 14px; text-shadow: 0 0 10px var(--accent); }
+
+        /* DETALLE PROPUESTA */
+        .detail-overlay { position: fixed; inset: 0; z-index: 4000; display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.6s; }
+        .detail-overlay.active { display: flex; opacity: 1; }
+        .detail-bg-blur { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(40px) brightness(0.2); z-index: -1; }
+        .detail-content { width: 85%; max-width: 1000px; padding: 60px; background: rgba(255,255,255,0.02); backdrop-filter: blur(15px); border-radius: 50px; border: 1px solid var(--border); position: relative; }
     </style>
 </head>
-<body>
+<body class="">
 
-<header>
-    <div style="font-weight: 900;">🧠 REVOLUCIÓN SOCIAL</div>
-    <div style="display: flex; gap: 10px;">
-        <button onclick="toggleCalm()" id="btnC" style="background:var(--primary); color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight: bold;">MODO CALMA</button>
-        <button onclick="toggleP()" style="background:none; border:none; color:var(--text); font-size:25px; cursor:pointer;">⋮</button>
-    </div>
-</header>
+    <div id="particles-js"></div>
 
-<div id="pBar" class="plantilla-bar">
-    <div class="member-item"><img src="yair.jpg" class="photo-circle"><b>PRESIDENTE</b><span>Yair Gonzalez</span></div>
-    <div class="member-item"><img src="cesar.jpg" class="photo-circle"><b>VICEPRESIDENTE</b><span>Cesar Morales</span></div>
-    <div class="member-item"><img src="kevin.jpg" class="photo-circle"><b>SECRETARIO</b><span>Kevin Zermeño</span></div>
-    <div class="member-item"><img src="jorge.jpg" class="photo-circle"><b>FINANZAS</b><span>Jorge Cortez</span></div>
-    <div class="member-item"><img src="francisco.jpg" class="photo-circle"><b>LEGISLADOR</b><span>Francisco Sandoval</span></div>
-    <div class="member-item"><img src="isai.jpg" class="photo-circle"><b>MARKETING</b><span>Isai Martinez</span></div>
-</div>
-
-<div class="container">
-    
-    <div class="event-card">
-        <div class="event-info">
-            <span class="event-badge">PRÓXIMO EVENTO</span>
-            <h3>📍 Spot: UTEG Olímpica</h3>
-            <p>Charla informativa y presentación de propuestas.</p>
+    <header>
+        <div style="font-weight: 900; font-size: 1.2rem;">REVOLUCIÓN <span style="color:var(--primary)">SOCIAL</span></div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="calm-container" onclick="toggleCalm()">
+                <span class="calm-text">Modo Calma</span>
+                <button class="btn-minimal"></button>
+            </div>
+            <div style="position: relative;">
+                <button class="btn-menu-code" onclick="toggleMenu()">&lt;/&gt;</button>
+                <div id="myDropdown" class="dropdown-menu">
+                    <a href="javascript:void(0)" onclick="openModal('plantillaModal')">👥 Planilla Completa</a>
+                    <a href="javascript:void(0)" onclick="openModal('privacidadModal')">🔐 Aviso de Privacidad</a>
+                </div>
+            </div>
         </div>
-        <div style="text-align: right;">
-            <div style="font-size: 1.5rem; font-weight: 900;">6 DE FEBRERO</div>
-            <div style="font-size: 1.1rem; opacity: 0.9;">4:00 PM</div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p style="letter-spacing: 3px; opacity: 0.8;">UTEG 2026</p>
+            <h1>BIENESTAR <br> <span class="italic-text">emocional.</span></h1>
+        </section>
+
+        <section id="eventos" class="events-section">
+            <h2 style="font-size: 3.5rem; margin: 0;">PRÓXIMOS <span class="italic-text">eventos.</span></h2>
+            <div class="events-grid">
+                <div class="event-card">
+                    <span class="event-date">VIERNES 06 FEB | 4:00 PM</span>
+                    <h3 style="font-size: 2.2rem; margin: 10px 0;">SPOT + TACOS 🌮</h3>
+                    <div style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px;"><i class="fas fa-map-marker-alt"></i> UTEG Olímpica</div>
+                    <p>Envía tu propuesta en el buzón de abajo, toma captura y canjea tu orden gratis en el evento.</p>
+                    <a href="#contacto" class="btn-tacos">¡Quiero mis tacos!</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="mv-canvas">
+            <div class="mv-trigger">
+                <div>
+                    <h2 style="font-size: 4rem; margin: 0;">Misión.</h2>
+                    <div class="mv-details">
+                        <p>Nuestra misión es transformar la política estudiantil en un ecosistema de soporte integral. Nos comprometemos a ser el puente directo entre las necesidades académicas y el bienestar humano, priorizando la salud mental, la seguridad en los traslados y la dignificación del tiempo del estudiante.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mv-trigger">
+                <div>
+                    <h2 style="font-size: 4rem; margin: 0;">Visión.</h2>
+                    <div class="mv-details">
+                        <p>Para el 2026, Revolución Social será recordada como la gestión que humanizó la excelencia académica en UTEG. Aspiramos a lograr que el bienestar emocional sea la base del éxito profesional, garantizando un entorno seguro y equitativo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="propuestas" class="propuestas-section">
+            <h2 style="font-size: 3.5rem; margin-bottom: 50px;">EJES DE <span class="italic-text">cambio.</span></h2>
+            <div class="stack-container">
+                <div class="stack-card" onclick="openProp('p1', 'https://images.unsplash.com/photo-1506126613408-eca07ce68773')">
+                    <div class="card-img-bg" style="background-image: url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1200')"></div>
+                    <h3>01. Ley del Tiempo para la Vida</h3>
+                </div>
+                <div class="stack-card" onclick="openProp('p2', 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae')">
+                    <div class="card-img-bg" style="background-image: url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1200')"></div>
+                    <h3>02. Canasta Básica Mental</h3>
+                </div>
+                <div class="stack-card" onclick="openProp('p3', 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e')">
+                    <div class="card-img-bg" style="background-image: url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1200')"></div>
+                    <h3>03. Psicólogo de Barrio (Campus)</h3>
+                </div>
+                <div class="stack-card" onclick="openProp('p4', 'https://images.unsplash.com/photo-1517021897933-0e0319cfbc28')">
+                    <div class="card-img-bg" style="background-image: url('https://images.unsplash.com/photo-1517021897933-0e0319cfbc28?q=80&w=1200')"></div>
+                    <h3>04. Seguridad y Movilidad Estudiantil</h3>
+                </div>
+            </div>
+        </section>
+
+        <section class="valores-section">
+            <div class="valores-grid">
+                <div class="valor-card empatia"><span class="valor-emoji">🫂</span><h3>Empatía</h3></div>
+                <div class="valor-card solidaridad"><span class="valor-emoji">✊</span><h3>Solidaridad</h3></div>
+                <div class="valor-card transparencia"><span class="valor-emoji">💎</span><h3>Transparencia</h3></div>
+                <div class="valor-card resiliencia"><span class="valor-emoji">🛡️</span><h3>Resiliencia</h3></div>
+            </div>
+        </section>
+
+        <section id="contacto" class="mailbox-section">
+            <div class="mailbox-container">
+                <h2 style="font-size: 2.5rem; margin: 0;">TU VOZ <span class="italic-text">cuenta.</span></h2>
+                <form id="contact-form" action="https://formspree.io/f/mjgopoeq" method="POST">
+                    <div class="form-grid">
+                        <input type="text" name="nombre" class="mailbox-input" placeholder="Nombre completo" required>
+                        <input type="text" name="matricula" class="mailbox-input" placeholder="Matrícula" required>
+                        <input type="text" name="carrera" class="mailbox-input" placeholder="Carrera" required>
+                        <input type="text" name="grado" class="mailbox-input" placeholder="Grado/Cuatrimestre" required>
+                        <input type="email" name="email" id="email-field" class="mailbox-input full-w" placeholder="tu_correo@alumnos.uteg.edu.mx" pattern=".+@alumnos\.uteg\.edu\.mx$" required>
+                        <textarea name="message" rows="4" class="mailbox-input full-w" placeholder="Escribe tu propuesta aquí..." required></textarea>
+                    </div>
+                    <button type="submit" id="submit-btn" class="btn-send">Enviar y ganar tacos</button>
+                </form>
+                <div id="success" style="display:none; padding-top: 20px;">
+                    <h2 style="color:var(--accent)">¡LISTO! 🌮</h2>
+                    <p>Captura esta pantalla para tus tacos gratis.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-container">
+            <a href="https://www.facebook.com/share/185eAc8djU/" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/revolucion_social.utg/" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>© 2026 Revolución Social UTEG</p>
+    </footer>
+
+    <div id="plantillaModal" class="modal" onclick="if(event.target==this) closeModal('plantillaModal')">
+        <div class="modal-inner">
+            <button onclick="closeModal('plantillaModal')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer;">×</button>
+            <h2 style="text-align: center;">LA <span class="italic-text">Planilla</span></h2>
+            <div class="p-grid">
+                <div class="t-float"><img src="yair.jpg"><h4>Yair Gonzalez</h4><p>Presidente</p></div>
+                <div class="t-float"><img src="cesar.jpg"><h4>Cesar Morales</h4><p>Vicepresidente</p></div>
+                <div class="t-float"><img src="kevin.jpg"><h4>Kevin Zermeño</h4><p>Secretario Gral.</p></div>
+                <div class="t-float"><img src="jorge.jpg"><h4>Jorge Cortez</h4><p>Finanzas</p></div>
+                <div class="t-float"><img src="isai.jpg"><h4>Isai Martinez</h4><p>Marketing</p></div>
+                <div class="t-float"><img src="francisco.jpg"><h4>Francisco S.</h4><p>Legislador</p></div>
+            </div>
         </div>
     </div>
 
-    <div class="mv-grid">
-        <div class="big-card">
-            <h2>Misión</h2>
-            <p>Implementar un sistema de salud mental digno, preventivo y gratuito para toda la comunidad UTEG.</p>
+    <div id="privacidadModal" class="modal" onclick="if(event.target==this) closeModal('privacidadModal')">
+        <div class="modal-inner" style="max-width: 500px; text-align: center;">
+            <button onclick="closeModal('privacidadModal')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer;">×</button>
+            <h2>Privacidad</h2>
+            <p>Tus datos son utilizados exclusivamente para validar tu identidad como estudiante UTEG.</p>
+            <br>
+            <span class="easter-egg">🎟️ TICKET DORADO ENCONTRADO: ¡Dile "Taco-Revolución" al staff para una sorpresa doble! 🌮</span>
         </div>
-        <div class="big-card">
-            <h2>Visión</h2>
-            <p>Ser pioneros en bienestar emocional estudiantil en el occidente del país para 2026.</p>
+    </div>
+
+    <div id="prop-detail" class="detail-overlay">
+        <div id="detail-img" class="detail-bg-blur"></div>
+        <div class="detail-content">
+            <div onclick="closeProp()" style="position: absolute; top: -20px; right: 20px; background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; cursor: pointer;">CERRAR ×</div>
+            <h2 id="detail-title" style="font-size: 3rem; margin:0;"></h2>
+            <p id="detail-desc" style="font-size: 1.2rem; color: var(--text-dim); margin-top: 25px; line-height: 1.6;"></p>
         </div>
     </div>
 
-    <div class="valores-grid">
-        <div class="valor-item"><span style="font-size:2.5rem;">🤝</span><p>Empatía</p></div>
-        <div class="valor-item"><span style="font-size:2.5rem;">⚖️</span><p>Justicia</p></div>
-        <div class="valor-item"><span style="font-size:2.5rem;">🛡️</span><p>Honestidad</p></div>
-        <div class="valor-item"><span style="font-size:2.5rem;">🔥</span><p>Pasión</p></div>
-    </div>
-
-    <h2 style="text-align: center; margin-bottom: 30px;">Propuestas Legislativas</h2>
-    <div class="propuesta-item" onclick="this.classList.toggle('active')">
-        <div class="propuesta-header"><span>01</span> Ley del tiempo para la vida</div>
-        <div class="propuesta-body">Protección del descanso y desconexión digital académica.</div>
-    </div>
-    <div class="propuesta-item" onclick="this.classList.toggle('active')">
-        <div class="propuesta-header"><span>02</span> Psicólogo de Barrio</div>
-        <div class="propuesta-body">Atención profesional en las inmediaciones de los planteles.</div>
-    </div>
-    <div class="propuesta-item" onclick="this.classList.toggle('active')">
-        <div class="propuesta-header"><span>03</span> Educación Emocional</div>
-        <div class="propuesta-body">Materia curricular obligatoria sobre gestión emocional.</div>
-    </div>
-    <div class="propuesta-item" onclick="this.classList.toggle('active')">
-        <div class="propuesta-header"><span>04</span> Canasta Básica Mental</div>
-        <div class="propuesta-body">Subsidio en medicamentos psiquiátricos especializados.</div>
-    </div>
-    <div class="propuesta-item" onclick="this.classList.toggle('active')">
-        <div class="propuesta-header"><span>05</span> Alerta 24/7</div>
-        <div class="propuesta-body">Línea de emergencia directa para crisis de ansiedad y depresión.</div>
-    </div>
-
-    <div style="text-align: center; margin-top: 50px;">
-        <button class="btn-main" onclick="openM()">¡SÚMATE AQUÍ!</button>
-    </div>
-</div>
-
-<div id="mO" class="modal-overlay">
-    <div class="modal-content">
-        <h3>Registro de Colaboración</h3>
-        <input type="text" id="n" placeholder="Nombre completo">
-        <input type="text" id="c" placeholder="Código de estudiante">
-        <input type="email" id="email" placeholder="Correo Institucional">
-        <input type="text" id="carrera" placeholder="Carrera y Semestre">
-        <button onclick="send()" class="btn-main" style="width:100%">Enviar por WhatsApp</button>
-        <button onclick="closeM()" style="background:none; border:none; color:var(--text-dim); margin-top:15px; cursor:pointer;">Cerrar</button>
-    </div>
-</div>
-
-<footer>
-    <div class="social-links">
-        <a href="https://www.facebook.com/profile.php?id=61586900776123&rdid=IlIpeDDQO1CtUEO5&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F185eAc8djU%2F#" target="_blank" class="social-link link-fb">FB</a>
-        <a href=" https://www.instagram.com/revolucion_social.utg/" target="_blank" class="social-link link-ig">IG</a>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        // CONFIGURACIÓN DE PARTÍCULAS
+        particlesJS("particles-js", { "particles": { "number": { "value": 40 }, "opacity": { "value": 0.15 }, "size": { "value": 1.5 }, "line_linked": { "enable": true, "distance": 150, "opacity": 0.05 }, "move": { "speed": 0.5 } } });
         
-    </div>
-    <p>© 2026 Revolución Social UTEG</p>
-</footer>
+        // ANIMACIÓN MODO CALMA
+        function toggleCalm() { 
+            document.body.classList.toggle('calm-mode');
+        }
 
+        // MENÚ Y MODALES
+        function toggleMenu() { const d = document.getElementById("myDropdown"); d.style.display = d.style.display === "block" ? "none" : "block"; }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-</script>
+        // DATOS DE PROPUESTAS
+        const propData = {
+            p1: { t: "Ley del Tiempo para la Vida", d: "Regulación de cargas académicas en fines de semana para garantizar descanso efectivo y tiempo de calidad personal fuera de las aulas." },
+            p2: { t: "Canasta Básica Mental", d: "Acceso a herramientas de meditación, talleres de manejo de estrés y materiales didácticos de salud emocional gratuitos para la comunidad." },
+            p3: { t: "Psicólogo de Barrio", d: "Atención psicológica presencial en cada campus, eliminando las esperas y acercando el apoyo profesional a donde más se necesita." },
+            p4: { t: "Seguridad y Movilidad", d: "Gestión de rutas seguras, mejor iluminación en perímetros y botones de pánico digitales para traslados sin riesgos." }
+        };
+
+        function openProp(id, img) {
+            document.getElementById('detail-title').innerText = propData[id].t;
+            document.getElementById('detail-desc').innerText = propData[id].d;
+            document.getElementById('detail-img').style.backgroundImage = `url(${img})`;
+            const overlay = document.getElementById('prop-detail');
+            overlay.style.display = 'flex'; setTimeout(() => overlay.classList.add('active'), 10);
+        }
+
+        function closeProp() {
+            const overlay = document.getElementById('prop-detail');
+            overlay.classList.remove('active'); setTimeout(() => overlay.style.display = 'none', 600);
+        }
+
+        // LÓGICA DEL FORMULARIO
+        const form = document.getElementById('contact-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email-field').value;
+            if (!email.endsWith('@alumnos.uteg.edu.mx')) { alert("⚠️ Se requiere correo institucional (@alumnos.uteg.edu.mx)"); return; }
+            
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true; btn.innerText = "Validando...";
+            
+            try {
+                const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+                if (response.ok) {
+                    confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 }, colors: ['#fbbf24', '#3b82f6'] });
+                    form.style.display = 'none';
+                    document.getElementById('success').style.display = 'block';
+                }
+            } catch (err) { alert("Error de conexión."); btn.disabled = false; btn.innerText = "Enviar"; }
+        });
+    </script>
 </body>
-</html>
+</html> 
 
+  
